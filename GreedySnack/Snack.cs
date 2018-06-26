@@ -70,7 +70,8 @@ namespace GreedySnack
                 // 计算蛇头前进之后的位置
                 Vector3 headVector = new Vector3(headNode.X, headNode.Y, 0);
                 Matrix translate = new Matrix();
-                translate.Translate(Vector3.Multiply(new Vector3(this.FaceAngle.X, this.FaceAngle.Y, 0), walkDistance));
+                Vector3 walkAngle = Vector3.Normalize(new Vector3(this.FaceAngle.X, this.FaceAngle.Y, 0));
+                translate.Translate(Vector3.Multiply(walkAngle, walkDistance));
                 headVector.TransformCoordinate(translate);
 
                 //删除当前头节点,再新增节点 ，等价于直接在头节点延长
@@ -93,14 +94,34 @@ namespace GreedySnack
             Node tail = this.Body.Last.Value;
             Node lastButOne = this.Body.Last.Previous.Value;
 
-            // 计算倒数两个节点的距离，大于要移动的距离则缩短尾节点。小于则删除尾节点 重复该过程。
-            Vector2 diffVector = new Vector2(lastButOne.X - tail.X, lastButOne.Y - tail.Y);
+            #region 计算倒数两个节点的距离，大于要移动的距离则缩短尾节点。小于则删除尾节点 重复该过程。
+
+            Vector3 diffVector = new Vector3(lastButOne.X - tail.X, lastButOne.Y - tail.Y, 0);
             float diffDistance = diffVector.Length();
 
-            if(diffDistance > walkDistance)
-            {
-                Matrix matrix = t
+            // 多线程锁
+            lock (this.Body)
+            { 
+                if (diffDistance > walkDistance)
+                {
+                    Matrix matrix = new Matrix();
+                    matrix.Translate(Vector3.Multiply(Vector3.Normalize(diffVector), walkDistance));
+                    Vector3 resultVector = new Vector3(tail.X, tail.Y, 0);
+                    resultVector.TransformCoordinate(matrix);
+
+                    this.Body.RemoveLast();
+                    this.Body.AddLast(new Node(resultVector.X, resultVector.Y));
+                    return;
+                }
+                else
+                {
+                    walkDistance -= diffDistance;
+                    this.Body.RemoveLast();
+                }
             }
+
+            TailWalk(walkDistance);
+            #endregion
         }
 
         public void Render(Device device)

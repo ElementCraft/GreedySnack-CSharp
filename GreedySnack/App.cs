@@ -257,7 +257,7 @@ namespace GreedySnack
         public void GameStart()
         {
             // 初始化玩家1的蛇
-            P1 = new Snack(new PointF(125, 100), new PointF(25, 100), 200, new Vector2(1, 0));
+            P1 = new Snack(new PointF(175, 100), new PointF(25, 100), 200, new Vector2(1, 0));
 
             Clock.Init();
 
