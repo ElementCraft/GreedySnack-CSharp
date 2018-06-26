@@ -11,8 +11,10 @@ namespace GreedySnack.Utils
         private static readonly string _path = Config.Get("Logger.Path", @"logs/");
         private static readonly string _debugFileName = Config.Get("Logger.FileName.Debug", @"tmp");
         private static readonly string _errorFileName = Config.Get("Logger.FileName.Error", @"err");
+        private static readonly string _warnFileName = Config.Get("Logger.FileName.Warn", @"warn");
         private static readonly string _ext = Config.Get("Logger.FileExtension", @".log");
         private static readonly string _dateFormatter = Config.Get("Logger.DateFormatter", @"yyyy年MM月dd日 HH:mm:ss");
+        
 
         // 委托 用于控制台的异步write
         private delegate void OutputConsoleDelegate(int code, string desc, ConsoleColor consoleColor);
@@ -91,6 +93,27 @@ namespace GreedySnack.Utils
             {
                 OutputConsoleDelegate consoleDelegate = new OutputConsoleDelegate(AsyncOutputToConsole);
                 IAsyncResult result = consoleDelegate.BeginInvoke(code, desc, ConsoleColor.White, null, null);
+            }
+
+            Write(path, code, desc);
+        }
+
+        /// <summary>
+        /// 记录Warn日志
+        /// </summary>
+        /// <param name="code">日志code</param>
+        /// <param name="desc">描述</param>
+        /// <param name="alsoConsole">是否也输出到控制台</param>
+        public static void Warn(int code, string desc, bool alsoConsole)
+        {
+            if (!Directory.Exists(_path)) Directory.CreateDirectory(_path);
+
+            string path = _path + _warnFileName + _ext;
+
+            if (alsoConsole)
+            {
+                OutputConsoleDelegate consoleDelegate = new OutputConsoleDelegate(AsyncOutputToConsole);
+                IAsyncResult result = consoleDelegate.BeginInvoke(code, desc, ConsoleColor.DarkYellow, null, null);
             }
 
             Write(path, code, desc);

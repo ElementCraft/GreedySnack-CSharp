@@ -10,7 +10,17 @@ namespace GreedySnack
         {
             using (App app = new App())
             {
-                app.Show();
+                if (app.Init())
+                {
+                    app.Show();
+
+                    // 游戏开始
+                    app.GameStart();
+                }
+                else
+                {
+                    return;
+                }
 
                 while (app.Created)
                 {

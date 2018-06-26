@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GreedySnack.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -72,7 +76,10 @@
     <Compile Include="App.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ISnack.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Snack.cs" />
+    <Compile Include="Utils\Clock.cs" />
     <Compile Include="Utils\Config.cs" />
     <Compile Include="Utils\Log.cs" />
   </ItemGroup>
