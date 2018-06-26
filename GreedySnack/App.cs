@@ -191,6 +191,27 @@ namespace GreedySnack
             }
 
             if (!vec.Equals(Vector2.Empty)) P1.RotateHead(vec);
+
+            // P2键盘输入处理        
+            vec = Vector2.Empty;
+            if (kbState[Key.UpArrow])
+            {
+                vec += new Vector2(0, -1);
+            }
+            if (kbState[Key.LeftArrow])
+            {
+                vec += new Vector2(-1, 0);
+            }
+            if (kbState[Key.DownArrow])
+            {
+                vec += new Vector2(0, 1);
+            }
+            if (kbState[Key.RightArrow])
+            {
+                vec += new Vector2(1, 0);
+            }
+
+            if (!vec.Equals(Vector2.Empty)) P2.RotateHead(vec);
         }
 
         /// <summary>
@@ -227,6 +248,7 @@ namespace GreedySnack
         public void UpdateFrame(float passTick)
         {
             P1.Walk(passTick);
+            P2.Walk(passTick);
         }
 
         /// <summary>
@@ -244,6 +266,7 @@ namespace GreedySnack
                 this.D3DDevice.BeginScene();
 
                 P1.Render(this.D3DDevice);
+                P2.Render(this.D3DDevice);
 
                 this.D3DDevice.EndScene();
                 this.D3DDevice.Present();
@@ -257,7 +280,9 @@ namespace GreedySnack
         public void GameStart()
         {
             // 初始化玩家1的蛇
-            P1 = new Snack(new PointF(175, 100), new PointF(25, 100), 200, new Vector2(1, 0));
+            P1 = new Snack(new PointF(175, 100), new PointF(25, 100), 200, new Vector2(1, 0), Color.SkyBlue);
+            // 初始化玩家2的蛇
+            P2 = new Snack(new PointF(750, 540), new PointF(875, 540), 200, new Vector2(-1, 0), Color.Pink);
 
             Clock.Init();
 

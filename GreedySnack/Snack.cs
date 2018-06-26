@@ -11,9 +11,25 @@ namespace GreedySnack
     /// </summary>
     public class Snack : ISnack
     {
+        /// <summary>
+        /// 蛇身节点链表
+        /// </summary>
         public LinkedList<Node> Body { get; private set; }
+
+        /// <summary>
+        /// 蛇移速
+        /// </summary>
         public float Speed { get; set; }
+
+        /// <summary>
+        /// 蛇的面向方向向量
+        /// </summary>
         public Vector2 FaceAngle { get; set; }
+
+        /// <summary>
+        /// 蛇身颜色
+        /// </summary>
+        public Color BodyColor { get; set; }
 
         [Obsolete]
         private bool _isFaceAngleChanged = false;
@@ -26,7 +42,7 @@ namespace GreedySnack
         /// <param name="tail_loc">尾巴节点坐标</param>
         /// <param name="speed">移速</param>
         /// <param name="faceAngle">面向方向向量</param>
-        public Snack(PointF head_loc, PointF tail_loc, float speed, Vector2 faceAngle)
+        public Snack(PointF head_loc, PointF tail_loc, float speed, Vector2 faceAngle, Color bodyColor)
         {
             this.Body = new LinkedList<Node>();
 
@@ -35,6 +51,7 @@ namespace GreedySnack
 
             this.Speed = speed;
             this.FaceAngle = faceAngle;
+            this.BodyColor = bodyColor;
         }
 
         public void Eat()
@@ -58,6 +75,10 @@ namespace GreedySnack
             }
         }
 
+        /// <summary>
+        /// 每帧移动的逻辑
+        /// </summary>
+        /// <param name="tick">距上一帧的时间间隔</param>
         public void Walk(float tick)
         {
             float walkDistance = this.Speed * tick / 1000.0f;
@@ -147,7 +168,7 @@ namespace GreedySnack
             Line line = new Line(device);
             line.Width = 4;
             line.Antialias = true;
-            line.Draw(vector2s, Color.SkyBlue);
+            line.Draw(vector2s, this.BodyColor);
         }
 
         /// <summary>
