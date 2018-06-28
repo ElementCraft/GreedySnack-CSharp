@@ -14,7 +14,7 @@ namespace GreedySnack.Utils
         private static readonly string _warnFileName = Config.Get("Logger.FileName.Warn", @"warn");
         private static readonly string _ext = Config.Get("Logger.FileExtension", @".log");
         private static readonly string _dateFormatter = Config.Get("Logger.DateFormatter", @"yyyy年MM月dd日 HH:mm:ss");
-        
+
 
         // 委托 用于控制台的异步write
         private delegate void OutputConsoleDelegate(int code, string desc, ConsoleColor consoleColor);
@@ -30,7 +30,7 @@ namespace GreedySnack.Utils
             FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
             StreamWriter sw = new StreamWriter(fs);
             DateTime now = DateTime.Now;
-            
+
             await sw.WriteLineAsync();
             await sw.WriteLineAsync("Code:" + code);
             await sw.WriteLineAsync("Time:" + now.ToString(_dateFormatter));

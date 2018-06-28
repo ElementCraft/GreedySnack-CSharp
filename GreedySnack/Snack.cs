@@ -42,6 +42,7 @@ namespace GreedySnack
         /// <param name="tail_loc">尾巴节点坐标</param>
         /// <param name="speed">移速</param>
         /// <param name="faceAngle">面向方向向量</param>
+        /// <param name="bodyColor">蛇身颜色</param>
         public Snack(PointF head_loc, PointF tail_loc, float speed, Vector2 faceAngle, Color bodyColor)
         {
             this.Body = new LinkedList<Node>();
