@@ -170,6 +170,7 @@ namespace GreedySnack
             line.Width = 4;
             line.Antialias = true;
             line.Draw(vector2s, this.BodyColor);
+            line.Dispose(); 
         }
 
         /// <summary>
